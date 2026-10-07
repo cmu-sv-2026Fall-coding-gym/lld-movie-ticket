@@ -1,0 +1,125 @@
+@startuml
+skinparam monochrome true
+skinparam backgroundColor #FFFFFF
+skinparam classBackgroundColor #FFFFFF
+skinparam dpi 200
+
+
+class Movie {
+    - String title
+    - String genre
+    - int durationInMinutes
+    - String rating
+}
+
+class Cinema {
+    - String name
+    - String location
+    - List<Room> rooms
+
+    + Cinema(String name, String location)
+    + void addRoom(Room room)
+}
+
+class Room {
+    - String roomNumber
+    - Layout layout
+}
+
+class Layout {
+    - int rows
+    - int columns
+    - Map<String, Seat> seatsByNumber
+    - Map<int, Map<int, Seat>> seatsByPosition
+    
+    + Layout(int rows, int columns)
+    + void addSeat(String seatNumber, int row, int column, Seat seat)
+    + Seat getSeatByNumber(String seatNumber)
+    + Seat getSeatByPosition(int row, int column)
+    + List<Seat> getAllSeats()
+}
+
+interface PricingStrategy {
+    + BigDecimal getPrice()
+}
+
+class NormalRate implements PricingStrategy {
+    + BigDecimal getPrice()
+}
+
+class PremiumRate implements PricingStrategy {
+    + BigDecimal getPrice()
+}
+
+class VIPRate implements PricingStrategy {
+    + BigDecimal getPrice()
+}
+
+class Seat {
+    - String seatNumber
+    - PricingStrategy pricingStrategy
+}
+
+
+
+class Screening {
+    - Movie movie
+    - Room room
+    - DateTime startTime
+    - DateTime endTime
+    + Duration getDuration()
+}
+
+class Ticket {
+    - Screening screening
+    - Seat seat
+    - BigDecimal price
+}
+
+class Order {
+    - List<Ticket> tickets
+    - LocalDateTime orderDate
+    + Order(LocalDateTime orderDate)
+    + void addTicket(Ticket ticket)
+    + BigDecimal calculateTotalPrice()
+    + List<Ticket> getAllTickets()
+}
+
+class ScreeningManager {
+    - Map<Movie, List<Screening>> screeningsByMovie
+    - Map<Screening, List<Ticket>> ticketsByScreening
+    + void addScreening(Movie movie, Screening screening)
+    + void addTicket(Screening screening, Ticket ticket)
+    + List<Screening> getScreeningsForMovie(Movie movie)
+    + List<Ticket> getTicketsForScreening(Screening screening)
+    + List<Seat> getAvailableSeats(Screening screening)
+}
+
+class MovieBookingSystem {
+    - List<Movie> movies
+    - List<Cinema> cinemas
+    - ScreeningManager screeningManager
+
+    + void addMovie(Movie movie)
+    + void addCinema(Cinema cinema)
+    + void addScreening(Movie movie, Screening screening)
+    + void bookTicket(Screening screening, Seat seat)
+    + List<Screening> getScreeningsForMovie(Movie movie)
+    + List<Seat> getAvailableSeats(Screening screening)
+    + List<Ticket> getTicketsForScreening(Screening screening)
+    + int getTicketCount(Screening screening)
+}
+
+Cinema *-- Room
+Room --> Layout
+Layout *-- Seat
+Seat --> PricingStrategy
+Screening --> Movie
+Screening --> Room
+Ticket --> Screening
+Ticket --> Seat
+Order *-- Ticket
+ScreeningManager --> Screening
+MovieBookingSystem --> ScreeningManager
+MovieBookingSystem --> Cinema
+MovieBookingSystem --> Movie

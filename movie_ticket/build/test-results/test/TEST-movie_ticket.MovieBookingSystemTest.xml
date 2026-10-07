@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="movie_ticket.MovieBookingSystemTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2026-10-07T18:41:59.662Z" hostname="Sherrys-MacBook-Pro.local" time="0.023">
+  <properties/>
+  <testcase name="testBrowseAndBuy()" classname="movie_ticket.MovieBookingSystemTest" time="0.019"/>
+  <system-out><![CDATA[
+=== Testing Movie Booking System: Browse and Buy Flow ===
+
+--- Creating Room and Setting Up Seat Pricing ---
+✓ Created room '1' with 10x10 seats, each seat priced at $10.00
+
+--- Adding Cinema to Booking System ---
+✓ Added cinema: 'Test Cinema' at 'Test Location'
+
+--- Creating Movie and Screening ---
+✓ Created movie: 'Test Movie' (180 min)
+✓ Created screening for 'Test Movie' in room '1'
+
+--- Adding Movie and Screening to Booking System ---
+✓ Added movie and screening to booking system
+
+--- Verifying Movies and Screenings in System ---
+✓ Verified: 1 movie and 1 screening present in system
+
+--- Checking Available Seats ---
+✓ Verified: 100 seats available for the screening
+
+--- Booking a Ticket ---
+✓ Booked seat (0,0) for 'Test Movie' screening
+✓ Verified: 1 ticket booked for the screening
+
+--- Checking Ticket Price ---
+✓ Verified: Ticket price is $10.00
+=== Movie Booking System Test Completed Successfully ===
+
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

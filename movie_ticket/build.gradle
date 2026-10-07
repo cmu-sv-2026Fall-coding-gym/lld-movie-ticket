@@ -1,0 +1,42 @@
+plugins {
+    id 'java'
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testImplementation 'org.junit.jupiter:junit-jupiter:5.11.0'
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+}
+
+// Configure source directories to use original paths
+sourceSets {
+    main {
+        java {
+            srcDir 'movie_ticket'
+            exclude '**/*Test.java'  // Exclude test files from main
+        }
+    }
+    test {
+        java {
+            srcDir 'movie_ticket'
+            include '**/*Test.java'  // Include only test files
+        }
+    }
+}
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
+}
+
+tasks.named('test') {
+    useJUnitPlatform()
+    testLogging {
+        showStandardStreams = true
+    }
+    // Reprint the walkthrough on every `gradle test`, even when sources are unchanged.
+    outputs.upToDateWhen { false }
+}
